@@ -44,8 +44,11 @@ class MapNavigationViewController: UIViewController {
             self.editMode = false
         }
         
-        
     }
+    
+    // TODO: add touch recognizer
+    // Ref: http://stackoverflow.com/questions/3959994/how-to-add-a-push-pin-to-a-mkmapviewios-when-touching
+    
 
 }
 

@@ -92,13 +92,13 @@
                                 <exclude reference="E1h-WV-qF6"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="F5W-Xg-XT8"/>
+                                <exclude reference="M2N-Th-c1p"/>
+                                <exclude reference="TxV-5n-IKy"/>
+                                <exclude reference="XGN-rw-h6r"/>
                                 <exclude reference="Pa8-iA-h6U"/>
                                 <exclude reference="mqp-pT-dvg"/>
                                 <exclude reference="sgA-db-2qA"/>
-                                <exclude reference="TxV-5n-IKy"/>
-                                <exclude reference="XGN-rw-h6r"/>
-                                <exclude reference="F5W-Xg-XT8"/>
-                                <exclude reference="M2N-Th-c1p"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -107,13 +107,13 @@
                                 <include reference="E1h-WV-qF6"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="F5W-Xg-XT8"/>
+                                <include reference="M2N-Th-c1p"/>
+                                <include reference="TxV-5n-IKy"/>
+                                <include reference="XGN-rw-h6r"/>
                                 <include reference="Pa8-iA-h6U"/>
                                 <include reference="mqp-pT-dvg"/>
                                 <include reference="sgA-db-2qA"/>
-                                <include reference="TxV-5n-IKy"/>
-                                <include reference="XGN-rw-h6r"/>
-                                <include reference="F5W-Xg-XT8"/>
-                                <include reference="M2N-Th-c1p"/>
                             </mask>
                         </variation>
                     </view>
@@ -143,6 +143,7 @@
                         <viewControllerLayoutGuide type="bottom" id="5z3-qL-zkW"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="76W-Ig-a4y">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="yOx-gp-0wX">
@@ -210,12 +211,12 @@
                                 <exclude reference="vWc-qA-rYZ"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="Dxw-fG-bvK"/>
                                 <exclude reference="erq-F0-ycY"/>
                                 <exclude reference="hTp-SC-Grr"/>
                                 <exclude reference="KcY-w5-Zd9"/>
                                 <exclude reference="Lxk-aC-6qi"/>
                                 <exclude reference="WTD-RN-Rc8"/>
-                                <exclude reference="Dxw-fG-bvK"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -225,12 +226,12 @@
                                 <include reference="vWc-qA-rYZ"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="Dxw-fG-bvK"/>
                                 <include reference="erq-F0-ycY"/>
                                 <include reference="hTp-SC-Grr"/>
                                 <include reference="KcY-w5-Zd9"/>
                                 <include reference="Lxk-aC-6qi"/>
                                 <include reference="WTD-RN-Rc8"/>
-                                <include reference="Dxw-fG-bvK"/>
                             </mask>
                         </variation>
                     </view>

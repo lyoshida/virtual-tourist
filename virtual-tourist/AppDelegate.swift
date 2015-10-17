@@ -6,6 +6,11 @@
 //  Copyright © 2015 Msen. All rights reserved.
 //
 
+
+// Project references:
+// Specification: https://docs.google.com/document/d/1j-UIi1jJGuNWKoEjEk09wwYf4ebefnwcVrUYbiHh1MI/pub?embedded=true
+// Grading rubric: https://docs.google.com/document/d/1ZY422V1_zq5rBGkGOlhLw_g99xS15Qx0tFUYtFOJ46Y/pub?embedded=true
+
 import UIKit
 import CoreData
 
