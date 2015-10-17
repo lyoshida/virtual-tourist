@@ -17,10 +17,13 @@ class MapNavigationViewController: UIViewController {
     
     var editMode: Bool = false
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         self.deletePinView.hidden = true
+        
+        self.initializeGestureRecognizer()
     }
 
     override func didReceiveMemoryWarning() {
@@ -50,5 +53,23 @@ class MapNavigationViewController: UIViewController {
     // Ref: http://stackoverflow.com/questions/3959994/how-to-add-a-push-pin-to-a-mkmapviewios-when-touching
     
 
+    func initializeGestureRecognizer() {
+        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: Selector("handleLongPress:"))
+        longPressRecognizer.minimumPressDuration = 1.0
+        navigationMapView.addGestureRecognizer(longPressRecognizer)
+    }
+    
+    func handleLongPress(gestureRecognizer: UIGestureRecognizer) {
+        if gestureRecognizer.state != .Began { return }
+        
+        let touchPoint = gestureRecognizer.locationInView(self.navigationMapView)
+        let touchMapCoordinate = self.navigationMapView.convertPoint(touchPoint, toCoordinateFromView: navigationMapView)
+        
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = touchMapCoordinate
+        
+        self.navigationMapView.addAnnotation(annotation)
+    }
+    
 }
 
