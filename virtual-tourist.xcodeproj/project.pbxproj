@@ -16,6 +16,7 @@
 		E9AE49AC1BCADE0B00622442 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E9AE49AA1BCADE0B00622442 /* LaunchScreen.storyboard */; };
 		E9AE49B71BCADE0B00622442 /* virtual_touristTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE49B61BCADE0B00622442 /* virtual_touristTests.swift */; };
 		E9AE49C21BCADE0B00622442 /* virtual_touristUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE49C11BCADE0B00622442 /* virtual_touristUITests.swift */; };
+		E9C08DC31BD4280B004E7E18 /* CoreDataStackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C08DC21BD4280B004E7E18 /* CoreDataStackManager.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		E9AE49BD1BCADE0B00622442 /* virtual-touristUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "virtual-touristUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9AE49C11BCADE0B00622442 /* virtual_touristUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = virtual_touristUITests.swift; sourceTree = "<group>"; };
 		E9AE49C31BCADE0B00622442 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E9C08DC21BD4280B004E7E18 /* CoreDataStackManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStackManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +112,7 @@
 				E9AE49AA1BCADE0B00622442 /* LaunchScreen.storyboard */,
 				E9AE49AD1BCADE0B00622442 /* Info.plist */,
 				E9AE49A51BCADE0B00622442 /* virtual_tourist.xcdatamodeld */,
+				E9C08DC21BD4280B004E7E18 /* CoreDataStackManager.swift */,
 			);
 			path = "virtual-tourist";
 			sourceTree = "<group>";
@@ -271,6 +274,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E9AE49A11BCADE0B00622442 /* MapNavigationViewController.swift in Sources */,
+				E9C08DC31BD4280B004E7E18 /* CoreDataStackManager.swift in Sources */,
 				E9AE499F1BCADE0B00622442 /* AppDelegate.swift in Sources */,
 				E9AE49A71BCADE0B00622442 /* virtual_tourist.xcdatamodeld in Sources */,
 			);

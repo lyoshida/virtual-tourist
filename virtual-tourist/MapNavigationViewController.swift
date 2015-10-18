@@ -64,7 +64,7 @@ class MapNavigationViewController: UIViewController {
         
         let touchPoint = gestureRecognizer.locationInView(self.navigationMapView)
         let touchMapCoordinate = self.navigationMapView.convertPoint(touchPoint, toCoordinateFromView: navigationMapView)
-        
+        print(touchMapCoordinate)
         let annotation = MKPointAnnotation()
         annotation.coordinate = touchMapCoordinate
         
