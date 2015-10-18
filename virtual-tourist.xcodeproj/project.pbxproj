@@ -17,6 +17,9 @@
 		E9AE49B71BCADE0B00622442 /* virtual_touristTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE49B61BCADE0B00622442 /* virtual_touristTests.swift */; };
 		E9AE49C21BCADE0B00622442 /* virtual_touristUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE49C11BCADE0B00622442 /* virtual_touristUITests.swift */; };
 		E9C08DC31BD4280B004E7E18 /* CoreDataStackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C08DC21BD4280B004E7E18 /* CoreDataStackManager.swift */; settings = {ASSET_TAGS = (); }; };
+		E9C08DC51BD42CDE004E7E18 /* VTClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C08DC41BD42CDE004E7E18 /* VTClient.swift */; settings = {ASSET_TAGS = (); }; };
+		E9C08DC81BD42E9D004E7E18 /* VTConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C08DC71BD42E9D004E7E18 /* VTConstants.swift */; settings = {ASSET_TAGS = (); }; };
+		E9C08DCA1BD45094004E7E18 /* VTConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C08DC91BD45094004E7E18 /* VTConvenience.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +56,9 @@
 		E9AE49C11BCADE0B00622442 /* virtual_touristUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = virtual_touristUITests.swift; sourceTree = "<group>"; };
 		E9AE49C31BCADE0B00622442 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E9C08DC21BD4280B004E7E18 /* CoreDataStackManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStackManager.swift; sourceTree = "<group>"; };
+		E9C08DC41BD42CDE004E7E18 /* VTClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VTClient.swift; sourceTree = "<group>"; };
+		E9C08DC71BD42E9D004E7E18 /* VTConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VTConstants.swift; sourceTree = "<group>"; };
+		E9C08DC91BD45094004E7E18 /* VTConvenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VTConvenience.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +111,7 @@
 		E9AE499D1BCADE0B00622442 /* virtual-tourist */ = {
 			isa = PBXGroup;
 			children = (
+				E9C08DC61BD42E7F004E7E18 /* Model */,
 				E9AE499E1BCADE0B00622442 /* AppDelegate.swift */,
 				E9AE49A01BCADE0B00622442 /* MapNavigationViewController.swift */,
 				E9AE49A21BCADE0B00622442 /* Main.storyboard */,
@@ -133,6 +140,16 @@
 				E9AE49C31BCADE0B00622442 /* Info.plist */,
 			);
 			path = "virtual-touristUITests";
+			sourceTree = "<group>";
+		};
+		E9C08DC61BD42E7F004E7E18 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E9C08DC41BD42CDE004E7E18 /* VTClient.swift */,
+				E9C08DC71BD42E9D004E7E18 /* VTConstants.swift */,
+				E9C08DC91BD45094004E7E18 /* VTConvenience.swift */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -276,6 +293,9 @@
 				E9AE49A11BCADE0B00622442 /* MapNavigationViewController.swift in Sources */,
 				E9C08DC31BD4280B004E7E18 /* CoreDataStackManager.swift in Sources */,
 				E9AE499F1BCADE0B00622442 /* AppDelegate.swift in Sources */,
+				E9C08DC81BD42E9D004E7E18 /* VTConstants.swift in Sources */,
+				E9C08DC51BD42CDE004E7E18 /* VTClient.swift in Sources */,
+				E9C08DCA1BD45094004E7E18 /* VTConvenience.swift in Sources */,
 				E9AE49A71BCADE0B00622442 /* virtual_tourist.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
