@@ -35,6 +35,12 @@ extension VTClient {
         static let bbox: String = "bbox"
         static let perPage: String = "per_page"
         static let extras: String = "extras"
+        static let noJsonCallback: String = "nojsoncallback"
+    }
+    
+    enum ApiMethods: String {
+        case photoSearch = "flickr.photos.search"
+        case photoRecent = "flickr.photos.getrecent"
     }
     
 }

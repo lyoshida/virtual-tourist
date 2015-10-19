@@ -21,7 +21,7 @@ class VTClient: NSObject {
     }
     
     
-    func taskForGETMethod(url: String, parameters: [String: AnyObject]?, headerParams: [String: String]?, completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
+    func taskForGETMethod(url: String, parameters: [String: AnyObject]?, completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
         
         // Build the URL
         var urlString : String
@@ -31,25 +31,20 @@ class VTClient: NSObject {
             urlString = "\(url)"
         }
         
+        print(urlString)
+        
         let url = NSURL(string: urlString)
         let request = NSMutableURLRequest(URL: url!)
-        
-        // Set header parameters to the request object
-        if let headerParams = headerParams {
-            for (key, value) in headerParams {
-                request.addValue(value, forHTTPHeaderField: key)
-            }
-        }
-        
         
         let task = session.dataTaskWithRequest(request) { data, response, downloadError in
             
             if let error = downloadError {
                 
                 completionHandler(result: nil, error: error)
+                print("Error in GET request. URL: \(url)")
+                print(parameters)
                 
             } else {
-                
                 VTClient.parseJSONWithCompletionHandler(data!, removeStart: true, completionHandler: completionHandler)
                 
             }
@@ -58,6 +53,7 @@ class VTClient: NSObject {
         task.resume()
         
         return task
+        
     }
     
     
@@ -81,18 +77,14 @@ class VTClient: NSObject {
         }
         
         return (!urlVars.isEmpty ? "?" : "") + urlVars.joinWithSeparator("&")
+        
     }
     
     /* Helper: Given raw JSON, return a usable Foundation object */
     class func parseJSONWithCompletionHandler(data: NSData, removeStart: Bool, completionHandler: (result: AnyObject!, error: NSError?) -> Void) {
         
-        var newData = data
-        if removeStart {
-            newData = data.subdataWithRange(NSMakeRange(5, data.length-5))
-        }
-        
         do {
-            let parsedResult: AnyObject? = try NSJSONSerialization.JSONObjectWithData(newData, options: NSJSONReadingOptions.AllowFragments)
+            let parsedResult: AnyObject? = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments)
             completionHandler(result: parsedResult, error: nil)
         } catch let error as NSError {
             print("Error parsing JSON.")
