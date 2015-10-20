@@ -85,7 +85,7 @@ class MapNavigationViewController: UIViewController, MKMapViewDelegate {
             if let error = error {
                 print(error)
             } else {
-                //print(result)
+                print(result)
             }
         }
         
