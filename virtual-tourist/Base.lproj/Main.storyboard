@@ -24,7 +24,7 @@
         <!--Virtual Tourist-->
         <scene sceneID="dGd-hZ-zAR">
             <objects>
-                <viewController id="M2J-m5-Z3V" customClass="MapNavigationViewController" customModule="virtual_tourist" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MapNavigationView" id="M2J-m5-Z3V" customClass="MapNavigationViewController" customModule="virtual_tourist" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="P87-XC-DzM"/>
                         <viewControllerLayoutGuide type="bottom" id="q3K-2H-bln"/>
@@ -128,6 +128,7 @@
                         <outlet property="deletePinView" destination="E1h-WV-qF6" id="nRZ-kv-Dte"/>
                         <outlet property="editPinsButton" destination="k9w-p7-Ui2" id="0sW-Up-wJ0"/>
                         <outlet property="navigationMapView" destination="e9s-xM-PtT" id="LX8-ul-iMi"/>
+                        <segue destination="xqp-qz-hih" kind="show" identifier="showPhotos" id="W1t-lt-Rj1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oa2-bg-xdt" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -137,7 +138,7 @@
         <!--Title-->
         <scene sceneID="qI7-l6-pEW">
             <objects>
-                <viewController id="xqp-qz-hih" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PhotoAlbumView" id="xqp-qz-hih" customClass="PhotoAlbumViewController" customModule="virtual_tourist" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="K5F-sN-IgK"/>
                         <viewControllerLayoutGuide type="bottom" id="5z3-qL-zkW"/>

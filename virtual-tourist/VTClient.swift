@@ -31,8 +31,6 @@ class VTClient: NSObject {
             urlString = "\(url)"
         }
         
-        print(urlString)
-        
         let url = NSURL(string: urlString)
         let request = NSMutableURLRequest(URL: url!)
         

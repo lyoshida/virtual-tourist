@@ -20,6 +20,7 @@
 		E9C08DC51BD42CDE004E7E18 /* VTClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C08DC41BD42CDE004E7E18 /* VTClient.swift */; settings = {ASSET_TAGS = (); }; };
 		E9C08DC81BD42E9D004E7E18 /* VTConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C08DC71BD42E9D004E7E18 /* VTConstants.swift */; settings = {ASSET_TAGS = (); }; };
 		E9C08DCA1BD45094004E7E18 /* VTConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C08DC91BD45094004E7E18 /* VTConvenience.swift */; settings = {ASSET_TAGS = (); }; };
+		E9EC5D701BD6B46700996AE5 /* PhotoAlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EC5D6F1BD6B46700996AE5 /* PhotoAlbumViewController.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		E9C08DC41BD42CDE004E7E18 /* VTClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VTClient.swift; sourceTree = "<group>"; };
 		E9C08DC71BD42E9D004E7E18 /* VTConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VTConstants.swift; sourceTree = "<group>"; };
 		E9C08DC91BD45094004E7E18 /* VTConvenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VTConvenience.swift; sourceTree = "<group>"; };
+		E9EC5D6F1BD6B46700996AE5 /* PhotoAlbumViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoAlbumViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +116,7 @@
 				E9C08DC61BD42E7F004E7E18 /* Model */,
 				E9AE499E1BCADE0B00622442 /* AppDelegate.swift */,
 				E9AE49A01BCADE0B00622442 /* MapNavigationViewController.swift */,
+				E9EC5D6F1BD6B46700996AE5 /* PhotoAlbumViewController.swift */,
 				E9AE49A21BCADE0B00622442 /* Main.storyboard */,
 				E9AE49A81BCADE0B00622442 /* Assets.xcassets */,
 				E9AE49AA1BCADE0B00622442 /* LaunchScreen.storyboard */,
@@ -293,6 +296,7 @@
 				E9AE49A11BCADE0B00622442 /* MapNavigationViewController.swift in Sources */,
 				E9C08DC31BD4280B004E7E18 /* CoreDataStackManager.swift in Sources */,
 				E9AE499F1BCADE0B00622442 /* AppDelegate.swift in Sources */,
+				E9EC5D701BD6B46700996AE5 /* PhotoAlbumViewController.swift in Sources */,
 				E9C08DC81BD42E9D004E7E18 /* VTConstants.swift in Sources */,
 				E9C08DC51BD42CDE004E7E18 /* VTClient.swift in Sources */,
 				E9C08DCA1BD45094004E7E18 /* VTConvenience.swift in Sources */,

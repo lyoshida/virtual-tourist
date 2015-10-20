@@ -9,13 +9,14 @@
 import UIKit
 import MapKit
 
-class MapNavigationViewController: UIViewController {
+class MapNavigationViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var deletePinView: UIView!
     @IBOutlet weak var navigationMapView: MKMapView!
     @IBOutlet weak var editPinsButton: UIBarButtonItem!
     
     var editMode: Bool = false
+    var currentSelectedCoordinate: CLLocationCoordinate2D?
     
     
     override func viewDidLoad() {
@@ -24,6 +25,9 @@ class MapNavigationViewController: UIViewController {
         self.deletePinView.hidden = true
         
         self.initializeGestureRecognizer()
+        
+        // Set the navigationMapView delegate as self.
+        self.navigationMapView.delegate = self
     }
 
     override func didReceiveMemoryWarning() {
@@ -49,10 +53,22 @@ class MapNavigationViewController: UIViewController {
         
     }
     
-    // TODO: add touch recognizer
-    // Ref: http://stackoverflow.com/questions/3959994/how-to-add-a-push-pin-to-a-mkmapviewios-when-touching
+    func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
+        
+        self.currentSelectedCoordinate = view.annotation?.coordinate
+        
+        performSegueWithIdentifier("showPhotos", sender: self)
+        
+    }
     
-
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if (segue.identifier == "showPhotos") {
+            let photoAlbumView = segue.destinationViewController as! PhotoAlbumViewController
+            photoAlbumView.coordinates = self.currentSelectedCoordinate
+        }
+    }
+    
+    
     func initializeGestureRecognizer() {
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: Selector("handleLongPress:"))
         longPressRecognizer.minimumPressDuration = 1.0
@@ -69,7 +85,7 @@ class MapNavigationViewController: UIViewController {
             if let error = error {
                 print(error)
             } else {
-                print(result)
+                //print(result)
             }
         }
         
