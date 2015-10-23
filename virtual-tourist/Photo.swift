@@ -7,13 +7,26 @@
 //
 
 import Foundation
+import CoreData
 
-struct PhotoList {
+@objc(Photo)
+class Photo: NSManagedObject {
 
+    @NSManaged var id: Int
+    @NSManaged var title: String
+    @NSManaged var url_m: String
     
-}
-
-
-struct PhotoList {
-
+    override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
+        super.init(entity: entity, insertIntoManagedObjectContext: context)
+    }
+    
+    init(dictionary: [String : AnyObject], context: NSManagedObjectContext) {
+        
+        let entity =  NSEntityDescription.entityForName("Photo", inManagedObjectContext: context)!
+        super.init(entity: entity,insertIntoManagedObjectContext: context)
+        title = dictionary["title"] as! String
+        id = dictionary["id"] as! Int
+        url_m = dictionary["url_m"] as! String
+    }
+    
 }

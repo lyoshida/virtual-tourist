@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import CoreData
 
 class MapNavigationViewController: UIViewController, MKMapViewDelegate {
 
@@ -18,6 +19,7 @@ class MapNavigationViewController: UIViewController, MKMapViewDelegate {
     var editMode: Bool = false
     var currentSelectedCoordinate: CLLocationCoordinate2D?
     
+    var sharedContext: NSManagedObjectContext = CoreDataStackManager.sharedInstance().managedObjectContext
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +30,8 @@ class MapNavigationViewController: UIViewController, MKMapViewDelegate {
         
         // Set the navigationMapView delegate as self.
         self.navigationMapView.delegate = self
+        
+//        self.loadPins()
     }
 
     override func didReceiveMemoryWarning() {
@@ -81,18 +85,61 @@ class MapNavigationViewController: UIViewController, MKMapViewDelegate {
         let touchPoint = gestureRecognizer.locationInView(self.navigationMapView)
         let touchMapCoordinate = self.navigationMapView.convertPoint(touchPoint, toCoordinateFromView: navigationMapView)
         
-        VTClient.sharedInstance().getPhotosInLocation(touchMapCoordinate) { result, error in
-            if let error = error {
-                print(error)
-            } else {
-                print(result)
-            }
-        }
+//        VTClient.sharedInstance().getPhotosInLocation(touchMapCoordinate) { result, error in
+//            if let error = error {
+//                print(error)
+//            } else {
+//                print(result)
+//            }
+//        }
         
         let annotation = MKPointAnnotation()
         annotation.coordinate = touchMapCoordinate
         
         self.navigationMapView.addAnnotation(annotation)
+        
+        // Saves the Pin
+        
+        dispatch_async(dispatch_get_main_queue(), {
+            
+            let latitude: Double = Double(annotation.coordinate.latitude)
+            let longitude: Double = Double(annotation.coordinate.longitude)
+            let pin = Pin(latitude: latitude, longitude: longitude, context: self.sharedContext)
+            
+            do {
+                try self.sharedContext.save()
+            } catch let error as NSError {
+                print("Error saving pin.")
+                print(error)
+            }
+
+        })
+        
+    }
+    
+    // Loads saved pins and add them to the map.
+    func loadPins() {
+        
+        let fetchRequest = NSFetchRequest(entityName: "Pin")
+        
+        do {
+            let pins = try self.sharedContext.executeFetchRequest(fetchRequest) as! [Pin]
+            
+            for pin in pins {
+                let annotation = MKPointAnnotation()
+                annotation.coordinate = CLLocationCoordinate2DMake(Double(pin.latitude), Double(pin.longitude))
+                
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.navigationMapView.addAnnotation(annotation)
+                })
+            }
+            
+        } catch _ {
+            print("Error fetching pins.")
+        }
+        
+        
+        
     }
     
 }

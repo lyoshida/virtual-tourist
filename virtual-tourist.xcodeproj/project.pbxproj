@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E994F6D91BD275D6003E7006 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E994F6D81BD275D6003E7006 /* MapKit.framework */; };
+		E9AA33941BDA6C1600A1755E /* Pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AA33931BDA6C1600A1755E /* Pin.swift */; settings = {ASSET_TAGS = (); }; };
 		E9AE499F1BCADE0B00622442 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE499E1BCADE0B00622442 /* AppDelegate.swift */; };
 		E9AE49A11BCADE0B00622442 /* MapNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AE49A01BCADE0B00622442 /* MapNavigationViewController.swift */; };
 		E9AE49A41BCADE0B00622442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E9AE49A21BCADE0B00622442 /* Main.storyboard */; };
@@ -43,6 +44,7 @@
 
 /* Begin PBXFileReference section */
 		E994F6D81BD275D6003E7006 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		E9AA33931BDA6C1600A1755E /* Pin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pin.swift; sourceTree = "<group>"; };
 		E9AE499B1BCADE0B00622442 /* virtual-tourist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "virtual-tourist.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9AE499E1BCADE0B00622442 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E9AE49A01BCADE0B00622442 /* MapNavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapNavigationViewController.swift; sourceTree = "<group>"; };
@@ -116,6 +118,7 @@
 			isa = PBXGroup;
 			children = (
 				E9EC5D711BD6C44300996AE5 /* Photo.swift */,
+				E9AA33931BDA6C1600A1755E /* Pin.swift */,
 				E9C08DC61BD42E7F004E7E18 /* Model */,
 				E9AE499E1BCADE0B00622442 /* AppDelegate.swift */,
 				E9AE49A01BCADE0B00622442 /* MapNavigationViewController.swift */,
@@ -301,6 +304,7 @@
 				E9C08DC31BD4280B004E7E18 /* CoreDataStackManager.swift in Sources */,
 				E9AE499F1BCADE0B00622442 /* AppDelegate.swift in Sources */,
 				E9EC5D701BD6B46700996AE5 /* PhotoAlbumViewController.swift in Sources */,
+				E9AA33941BDA6C1600A1755E /* Pin.swift in Sources */,
 				E9C08DC81BD42E9D004E7E18 /* VTConstants.swift in Sources */,
 				E9C08DC51BD42CDE004E7E18 /* VTClient.swift in Sources */,
 				E9C08DCA1BD45094004E7E18 /* VTConvenience.swift in Sources */,
