@@ -11,6 +11,9 @@
 // Specification: https://docs.google.com/document/d/1j-UIi1jJGuNWKoEjEk09wwYf4ebefnwcVrUYbiHh1MI/pub?embedded=true
 // Grading rubric: https://docs.google.com/document/d/1ZY422V1_zq5rBGkGOlhLw_g99xS15Qx0tFUYtFOJ46Y/pub?embedded=true
 
+// Refs
+// Persistent Pins: http://www.juliusdanek.de/blog/coding/2015/07/14/persistent-pins-tutorial/
+
 import UIKit
 import CoreData
 

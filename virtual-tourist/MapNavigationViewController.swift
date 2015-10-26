@@ -31,7 +31,7 @@ class MapNavigationViewController: UIViewController, MKMapViewDelegate {
         // Set the navigationMapView delegate as self.
         self.navigationMapView.delegate = self
         
-//        self.loadPins()
+        self.loadPins()
     }
 
     override func didReceiveMemoryWarning() {
@@ -59,9 +59,27 @@ class MapNavigationViewController: UIViewController, MKMapViewDelegate {
     
     func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
         
-        self.currentSelectedCoordinate = view.annotation?.coordinate
+        if self.editMode == false {
+            
+            self.currentSelectedCoordinate = view.annotation?.coordinate
+            performSegueWithIdentifier("showPhotos", sender: self)
+            
+        } else {
+            
+            let pin = view.annotation as! Pin
+            sharedContext.deleteObject(pin)
+            self.navigationMapView.removeAnnotation(view.annotation!)
+
+            do {
+                try self.sharedContext.save()
+            } catch let error as NSError {
+                print("Error removing pin.")
+                print(error)
+            }
+
+
+        }
         
-        performSegueWithIdentifier("showPhotos", sender: self)
         
     }
     
@@ -104,7 +122,7 @@ class MapNavigationViewController: UIViewController, MKMapViewDelegate {
             
             let latitude: Double = Double(annotation.coordinate.latitude)
             let longitude: Double = Double(annotation.coordinate.longitude)
-            let pin = Pin(latitude: latitude, longitude: longitude, context: self.sharedContext)
+            _ = Pin(annotationLatitude: latitude, annotationLongitude: longitude, context: self.sharedContext)
             
             do {
                 try self.sharedContext.save()
@@ -126,11 +144,11 @@ class MapNavigationViewController: UIViewController, MKMapViewDelegate {
             let pins = try self.sharedContext.executeFetchRequest(fetchRequest) as! [Pin]
             
             for pin in pins {
-                let annotation = MKPointAnnotation()
-                annotation.coordinate = CLLocationCoordinate2DMake(Double(pin.latitude), Double(pin.longitude))
-                
+//                let annotation = MKPointAnnotation()
+//                annotation.coordinate = CLLocationCoordinate2DMake(Double(pin.latitude), Double(pin.longitude))
+//                
                 dispatch_async(dispatch_get_main_queue(), {
-                    self.navigationMapView.addAnnotation(annotation)
+                    self.navigationMapView.addAnnotation(pin)
                 })
             }
             
