@@ -102,15 +102,7 @@ class MapNavigationViewController: UIViewController, MKMapViewDelegate {
         
         let touchPoint = gestureRecognizer.locationInView(self.navigationMapView)
         let touchMapCoordinate = self.navigationMapView.convertPoint(touchPoint, toCoordinateFromView: navigationMapView)
-        
-//        VTClient.sharedInstance().getPhotosInLocation(touchMapCoordinate) { result, error in
-//            if let error = error {
-//                print(error)
-//            } else {
-//                print(result)
-//            }
-//        }
-        
+                
         let annotation = MKPointAnnotation()
         annotation.coordinate = touchMapCoordinate
         

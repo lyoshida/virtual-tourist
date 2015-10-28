@@ -13,6 +13,8 @@ class VTClient: NSObject {
     
     var session: NSURLSession
     
+    var sharedContext = CoreDataStackManager.sharedInstance().managedObjectContext
+    
     override init() {
         
         session = NSURLSession.sharedSession()
@@ -83,6 +85,7 @@ class VTClient: NSObject {
         
         do {
             let parsedResult: AnyObject? = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments)
+            
             completionHandler(result: parsedResult, error: nil)
         } catch let error as NSError {
             print("Error parsing JSON.")

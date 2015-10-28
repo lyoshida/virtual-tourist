@@ -28,7 +28,20 @@ extension VTClient {
                 completionHandler(result: nil, error: error)
                 print("Error retriving photos.")
             } else {
-                completionHandler(result: result, error: nil)
+                print(result!.dynamicType)
+                
+                var photoList: [Photo] = []
+                
+                if let photos = result.valueForKey("photos") as! [String: AnyObject]? {
+                    if let photo = photos["photo"] as! [AnyObject]? {
+                        for p in photo {
+                            let photoJson = p as! [String: AnyObject]
+                            photoList.append(Photo(dictionary: photoJson, context: self.sharedContext))
+                        }
+                    }
+                }
+                
+                completionHandler(result: photoList, error: nil)
             }
         }
         
