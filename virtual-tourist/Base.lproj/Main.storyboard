@@ -137,7 +137,7 @@
             </objects>
             <point key="canvasLocation" x="234" y="569"/>
         </scene>
-        <!--Title-->
+        <!--Photo Album View Controller-->
         <scene sceneID="qI7-l6-pEW">
             <objects>
                 <viewController storyboardIdentifier="PhotoAlbumView" id="xqp-qz-hih" customClass="PhotoAlbumViewController" customModule="virtual_tourist" customModuleProvider="target" sceneMemberID="viewController">
@@ -158,11 +158,10 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hHA-Ad-lws">
                                                 <rect key="frame" x="0.0" y="0.0" width="400" height="355"/>
                                                 <subviews>
-                                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="yOx-gp-0wX">
+                                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="yOx-gp-0wX">
                                                         <rect key="frame" x="0.0" y="0.0" width="400" height="355"/>
                                                         <animations/>
-                                                        <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="MeH-Yq-gFz">
+                                                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="1" id="MeH-Yq-gFz">
                                                             <size key="itemSize" width="135" height="135"/>
                                                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -245,7 +244,11 @@
                                 <animations/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="PhF-bS-kSf"/>
-                                    <barButtonItem title="New Collection" id="X9t-Xd-bnu"/>
+                                    <barButtonItem title="New Collection" id="X9t-Xd-bnu">
+                                        <connections>
+                                            <action selector="loadNewCollection:" destination="xqp-qz-hih" id="3hi-fz-PDV"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="WHI-4i-eYy"/>
                                 </items>
                             </toolbar>
@@ -327,9 +330,10 @@
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" title="Title" id="kni-7B-aPo"/>
+                    <navigationItem key="navigationItem" id="kni-7B-aPo"/>
                     <connections>
                         <outlet property="mapView" destination="vWc-qA-rYZ" id="J6i-Ji-qg8"/>
+                        <outlet property="newCollectionButton" destination="FQ8-CZ-8yT" id="3Uc-ak-JOL"/>
                         <outlet property="photosCollectionView" destination="yOx-gp-0wX" id="9Au-ld-5sC"/>
                     </connections>
                 </viewController>

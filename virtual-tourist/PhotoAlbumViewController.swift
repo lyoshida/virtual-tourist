@@ -16,6 +16,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource  {
     
     @IBOutlet weak var mapView: MKMapView!
     
+    @IBOutlet weak var newCollectionButton: UIToolbar!
     @IBOutlet weak var photosCollectionView: UICollectionView!
     
     override func viewDidLoad() {
@@ -23,18 +24,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource  {
 
         self.centerMapOnCoordinates(self.coordinates!)
         
-        VTClient.sharedInstance().getPhotosInLocation(coordinates!) { result, error in
-            if let error = error {
-                print(error)
-            } else {
-                self.photos = result as! [Photo]
-                
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.photosCollectionView.reloadData()
-                })
-                
-            }
-        }
+        self.getPhotos()
 
     }
     
@@ -69,6 +59,28 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource  {
             self.mapView.setRegion(region, animated: true)
             
         })
+    }
+    
+    @IBAction func loadNewCollection(sender: UIBarButtonItem) {
+        print("Retrieving new photos")
+        self.getPhotos()
+        
+    }
+    
+    func getPhotos() {
+        
+        VTClient.sharedInstance().getPhotosInLocation(coordinates!) { result, error in
+            if let error = error {
+                print(error)
+            } else {
+                self.photos = result as! [Photo]
+                
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.photosCollectionView.reloadData()
+                })
+                
+            }
+        }
     }
     
     
