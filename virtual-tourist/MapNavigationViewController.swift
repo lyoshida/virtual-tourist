@@ -48,7 +48,6 @@ class MapNavigationViewController: UIViewController, MKMapViewDelegate {
             
             self.editMode = true
             
-            print(self.editMode)
         } else {
             self.deletePinView.hidden = true
 

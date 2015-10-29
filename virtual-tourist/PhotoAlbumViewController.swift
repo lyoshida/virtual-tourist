@@ -14,18 +14,25 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource  {
     var coordinates: CLLocationCoordinate2D?
     var photos: [Photo] = []
     
+    @IBOutlet weak var mapView: MKMapView!
+    
     @IBOutlet weak var photosCollectionView: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.centerMapOnCoordinates(self.coordinates!)
+        
         VTClient.sharedInstance().getPhotosInLocation(coordinates!) { result, error in
             if let error = error {
                 print(error)
             } else {
                 self.photos = result as! [Photo]
                 
-                self.photosCollectionView.reloadData()
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.photosCollectionView.reloadData()
+                })
+                
             }
         }
 
@@ -46,6 +53,22 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource  {
         }
         
         return cell
+    }
+    
+    func centerMapOnCoordinates(coordinates: CLLocationCoordinate2D) {
+        
+        dispatch_async(dispatch_get_main_queue(), {
+            
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = coordinates
+            
+            self.mapView.addAnnotation(annotation)
+            
+            let region = MKCoordinateRegionMakeWithDistance(coordinates, 5000, 5000)
+            
+            self.mapView.setRegion(region, animated: true)
+            
+        })
     }
     
     

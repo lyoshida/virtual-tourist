@@ -28,7 +28,6 @@ extension VTClient {
                 completionHandler(result: nil, error: error)
                 print("Error retriving photos.")
             } else {
-                print(result!.dynamicType)
                 
                 var photoList: [Photo] = []
                 
