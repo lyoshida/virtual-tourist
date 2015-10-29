@@ -9,7 +9,7 @@
 import MapKit
 import UIKit
 
-class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource  {
+class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout  {
     
     var coordinates: CLLocationCoordinate2D?
     var photos: [Photo] = []
@@ -33,54 +33,73 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource  {
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        
         let cell = photosCollectionView.dequeueReusableCellWithReuseIdentifier("photoCell", forIndexPath: indexPath) as! PhotoCollectionViewCell
         
-        if let url = NSURL(string: photos[indexPath.row].url_m) {
-            if let data = NSData(contentsOfURL: url) {
-                cell.imageView?.image = UIImage(data: data)
-                
+        cell.animate()
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {
+            if let url = NSURL(string: self.photos[indexPath.row].url_m) {
+                if let data = NSData(contentsOfURL: url) {
+                    dispatch_async(dispatch_get_main_queue(), {
+                        cell.imageView?.image = UIImage(data: data)
+                        cell.stopAnimate()
+                        
+                    })
+                    
+                }
             }
-        }
+        })
         
         return cell
+    }
+
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        
+        let collectionViewWidth = self.photosCollectionView.frame.width
+        let photoWidth = Double(collectionViewWidth/3 - 1)
+        return CGSize(width: photoWidth, height: photoWidth)
     }
     
     func centerMapOnCoordinates(coordinates: CLLocationCoordinate2D) {
         
-        dispatch_async(dispatch_get_main_queue(), {
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = coordinates
+        
             
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = coordinates
+        self.mapView.addAnnotation(annotation)
             
-            self.mapView.addAnnotation(annotation)
+        let region = MKCoordinateRegionMakeWithDistance(coordinates, 5000, 5000)
+        self.mapView.setRegion(region, animated: true)
             
-            let region = MKCoordinateRegionMakeWithDistance(coordinates, 5000, 5000)
-            
-            self.mapView.setRegion(region, animated: true)
-            
-        })
     }
     
     @IBAction func loadNewCollection(sender: UIBarButtonItem) {
         print("Retrieving new photos")
+        self.photos = [Photo]()
+        
+        self.photosCollectionView.reloadData()
         self.getPhotos()
         
     }
     
     func getPhotos() {
         
-        VTClient.sharedInstance().getPhotosInLocation(coordinates!) { result, error in
+        
+        VTClient.sharedInstance().getPhotosInLocation(self.coordinates!) { result, error in
             if let error = error {
                 print(error)
             } else {
                 self.photos = result as! [Photo]
-                
+
                 dispatch_async(dispatch_get_main_queue(), {
                     self.photosCollectionView.reloadData()
                 })
                 
             }
         }
+
+        
     }
     
     
