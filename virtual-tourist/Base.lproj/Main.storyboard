@@ -206,9 +206,6 @@
                                                     <rect key="frame" x="-10" y="-10" width="20" height="20"/>
                                                     <animations/>
                                                     <color key="color" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <variation key="widthClass=compact" misplaced="YES">
-                                                        <rect key="frame" x="50" y="50" width="20" height="20"/>
-                                                    </variation>
                                                 </activityIndicatorView>
                                             </subviews>
                                             <animations/>
@@ -227,10 +224,10 @@
                                                 <exclude reference="anp-zY-AcF"/>
                                             </mask>
                                             <mask key="constraints">
-                                                <exclude reference="2QY-a0-drq"/>
-                                                <exclude reference="7Yg-B8-ebt"/>
                                                 <exclude reference="69O-F3-I3X"/>
                                                 <exclude reference="a7G-8m-dOb"/>
+                                                <exclude reference="2QY-a0-drq"/>
+                                                <exclude reference="7Yg-B8-ebt"/>
                                             </mask>
                                         </variation>
                                         <variation key="widthClass=compact">
@@ -239,10 +236,10 @@
                                                 <include reference="anp-zY-AcF"/>
                                             </mask>
                                             <mask key="constraints">
-                                                <include reference="2QY-a0-drq"/>
-                                                <include reference="7Yg-B8-ebt"/>
                                                 <include reference="69O-F3-I3X"/>
                                                 <include reference="a7G-8m-dOb"/>
+                                                <include reference="2QY-a0-drq"/>
+                                                <include reference="7Yg-B8-ebt"/>
                                             </mask>
                                         </variation>
                                         <connections>
@@ -251,9 +248,6 @@
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
-                                <variation key="widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="0.0" y="193" width="400" height="363"/>
-                                </variation>
                                 <connections>
                                     <outlet property="dataSource" destination="xqp-qz-hih" id="L6R-0x-x6n"/>
                                     <outlet property="delegate" destination="xqp-qz-hih" id="s3h-LZ-mHw"/>
@@ -285,18 +279,18 @@
                                 <exclude reference="AP9-x2-bsp"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="jAw-60-8on"/>
+                                <exclude reference="0f1-0R-sRY"/>
+                                <exclude reference="BDe-Y6-SSR"/>
+                                <exclude reference="MSb-SE-9BN"/>
+                                <exclude reference="Bj0-vs-VgT"/>
+                                <exclude reference="N9W-Cb-lJ4"/>
+                                <exclude reference="Q6S-Vb-S4B"/>
                                 <exclude reference="KfT-ev-q6W"/>
                                 <exclude reference="erq-F0-ycY"/>
                                 <exclude reference="hTp-SC-Grr"/>
                                 <exclude reference="pfG-Eh-nH2"/>
                                 <exclude reference="xz6-Tp-3Pi"/>
-                                <exclude reference="Bj0-vs-VgT"/>
-                                <exclude reference="N9W-Cb-lJ4"/>
-                                <exclude reference="Q6S-Vb-S4B"/>
-                                <exclude reference="0f1-0R-sRY"/>
-                                <exclude reference="BDe-Y6-SSR"/>
-                                <exclude reference="MSb-SE-9BN"/>
-                                <exclude reference="jAw-60-8on"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -306,18 +300,18 @@
                                 <include reference="AP9-x2-bsp"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="jAw-60-8on"/>
+                                <include reference="0f1-0R-sRY"/>
+                                <include reference="BDe-Y6-SSR"/>
+                                <include reference="MSb-SE-9BN"/>
+                                <include reference="Bj0-vs-VgT"/>
+                                <include reference="N9W-Cb-lJ4"/>
+                                <include reference="Q6S-Vb-S4B"/>
                                 <include reference="KfT-ev-q6W"/>
                                 <exclude reference="erq-F0-ycY"/>
                                 <exclude reference="hTp-SC-Grr"/>
                                 <include reference="pfG-Eh-nH2"/>
                                 <include reference="xz6-Tp-3Pi"/>
-                                <include reference="Bj0-vs-VgT"/>
-                                <include reference="N9W-Cb-lJ4"/>
-                                <include reference="Q6S-Vb-S4B"/>
-                                <include reference="0f1-0R-sRY"/>
-                                <include reference="BDe-Y6-SSR"/>
-                                <include reference="MSb-SE-9BN"/>
-                                <include reference="jAw-60-8on"/>
                             </mask>
                         </variation>
                     </view>

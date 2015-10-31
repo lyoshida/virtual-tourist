@@ -18,6 +18,7 @@ class MapNavigationViewController: UIViewController, MKMapViewDelegate {
     
     var editMode: Bool = false
     var currentSelectedCoordinate: CLLocationCoordinate2D?
+    var currentPin: Pin? = nil
     
     var sharedContext: NSManagedObjectContext = CoreDataStackManager.sharedInstance().managedObjectContext
     
@@ -58,6 +59,8 @@ class MapNavigationViewController: UIViewController, MKMapViewDelegate {
     
     func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
         
+        self.currentPin = view.annotation as? Pin
+        
         if self.editMode == false {
             
             self.currentSelectedCoordinate = view.annotation?.coordinate
@@ -65,8 +68,8 @@ class MapNavigationViewController: UIViewController, MKMapViewDelegate {
             
         } else {
             
-            let pin = view.annotation as! Pin
-            sharedContext.deleteObject(pin)
+            
+            sharedContext.deleteObject(self.currentPin!)
             self.navigationMapView.removeAnnotation(view.annotation!)
 
             do {
@@ -85,7 +88,7 @@ class MapNavigationViewController: UIViewController, MKMapViewDelegate {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if (segue.identifier == "showPhotos") {
             let photoAlbumView = segue.destinationViewController as! PhotoAlbumViewController
-            photoAlbumView.coordinates = self.currentSelectedCoordinate
+            photoAlbumView.pin = self.currentPin
         }
     }
     

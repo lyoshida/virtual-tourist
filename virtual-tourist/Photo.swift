@@ -21,7 +21,7 @@ class Photo: NSManagedObject {
     }
     
     init(dictionary: [String : AnyObject], context: NSManagedObjectContext) {
-        let entity =  NSEntityDescription.entityForName("Photos", inManagedObjectContext: context)!
+        let entity =  NSEntityDescription.entityForName("Photo", inManagedObjectContext: context)!
         super.init(entity: entity, insertIntoManagedObjectContext: context)
         
 

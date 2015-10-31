@@ -11,8 +11,9 @@ import UIKit
 
 class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout  {
     
-    var coordinates: CLLocationCoordinate2D?
+    var pin: Pin?
     var photos: [Photo] = []
+    
     
     @IBOutlet weak var mapView: MKMapView!
     
@@ -22,9 +23,10 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.centerMapOnCoordinates(self.coordinates!)
+        self.centerMapOnCoordinates(pin!)
         
         self.getPhotos()
+        
 
     }
     
@@ -61,15 +63,15 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         return CGSize(width: photoWidth, height: photoWidth)
     }
     
-    func centerMapOnCoordinates(coordinates: CLLocationCoordinate2D) {
+    func centerMapOnCoordinates(pin: Pin) {
         
         let annotation = MKPointAnnotation()
-        annotation.coordinate = coordinates
+        annotation.coordinate = pin.coordinate
         
             
         self.mapView.addAnnotation(annotation)
             
-        let region = MKCoordinateRegionMakeWithDistance(coordinates, 5000, 5000)
+        let region = MKCoordinateRegionMakeWithDistance(pin.coordinate, 5000, 5000)
         self.mapView.setRegion(region, animated: true)
             
     }
@@ -86,7 +88,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     func getPhotos() {
         
         
-        VTClient.sharedInstance().getPhotosInLocation(self.coordinates!) { result, error in
+        VTClient.sharedInstance().getPhotosInLocation(pin!.coordinate) { result, error in
             if let error = error {
                 print(error)
             } else {
