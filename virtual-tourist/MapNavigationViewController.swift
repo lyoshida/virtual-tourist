@@ -17,7 +17,6 @@ class MapNavigationViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var editPinsButton: UIBarButtonItem!
     
     var editMode: Bool = false
-    var currentSelectedCoordinate: CLLocationCoordinate2D?
     var currentPin: Pin? = nil
     
     var sharedContext: NSManagedObjectContext = CoreDataStackManager.sharedInstance().managedObjectContext
@@ -63,11 +62,9 @@ class MapNavigationViewController: UIViewController, MKMapViewDelegate {
         
         if self.editMode == false {
             
-            self.currentSelectedCoordinate = view.annotation?.coordinate
             performSegueWithIdentifier("showPhotos", sender: self)
             
         } else {
-            
             
             sharedContext.deleteObject(self.currentPin!)
             self.navigationMapView.removeAnnotation(view.annotation!)
@@ -89,6 +86,10 @@ class MapNavigationViewController: UIViewController, MKMapViewDelegate {
         if (segue.identifier == "showPhotos") {
             let photoAlbumView = segue.destinationViewController as! PhotoAlbumViewController
             photoAlbumView.pin = self.currentPin
+            
+            if self.currentPin == nil {
+                print("no current pin")
+            }
         }
     }
     
@@ -104,9 +105,9 @@ class MapNavigationViewController: UIViewController, MKMapViewDelegate {
         
         let touchPoint = gestureRecognizer.locationInView(self.navigationMapView)
         let touchMapCoordinate = self.navigationMapView.convertPoint(touchPoint, toCoordinateFromView: navigationMapView)
-                
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = touchMapCoordinate
+        
+        let annotation = Pin(annotationLatitude: touchMapCoordinate.latitude, annotationLongitude: touchMapCoordinate.longitude, context: sharedContext)
+
         
         self.navigationMapView.addAnnotation(annotation)
         
@@ -138,9 +139,6 @@ class MapNavigationViewController: UIViewController, MKMapViewDelegate {
             let pins = try self.sharedContext.executeFetchRequest(fetchRequest) as! [Pin]
             
             for pin in pins {
-//                let annotation = MKPointAnnotation()
-//                annotation.coordinate = CLLocationCoordinate2DMake(Double(pin.latitude), Double(pin.longitude))
-//                
                 dispatch_async(dispatch_get_main_queue(), {
                     self.navigationMapView.addAnnotation(pin)
                 })

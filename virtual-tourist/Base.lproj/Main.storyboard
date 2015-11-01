@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="sP6-MV-1F6">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -195,51 +196,67 @@
                                             <rect key="frame" x="0.0" y="0.0" width="125" height="125"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9dc-5e-ggT">
-                                                    <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                                                    <animations/>
-                                                    <variation key="widthClass=compact" ambiguous="YES" misplaced="YES">
-                                                        <rect key="frame" x="4" y="5" width="116" height="116"/>
-                                                    </variation>
-                                                </imageView>
                                                 <activityIndicatorView hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="anp-zY-AcF">
                                                     <rect key="frame" x="-10" y="-10" width="20" height="20"/>
                                                     <animations/>
                                                     <color key="color" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </activityIndicatorView>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9dc-5e-ggT">
+                                                    <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                                    <animations/>
+                                                    <rect key="contentStretch" x="0.0" y="0.0" width="0.0" height="0.0"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="9dc-5e-ggT" secondAttribute="height" multiplier="1:1" id="aW6-GA-jEF"/>
+                                                        <constraint firstAttribute="width" secondItem="9dc-5e-ggT" secondAttribute="height" multiplier="1:1" id="aXR-ae-v6U"/>
+                                                    </constraints>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="aW6-GA-jEF"/>
+                                                            <exclude reference="aXR-ae-v6U"/>
+                                                        </mask>
+                                                    </variation>
+                                                    <variation key="widthClass=compact" ambiguous="YES" misplaced="YES">
+                                                        <rect key="frame" x="4" y="5" width="116" height="116"/>
+                                                        <mask key="constraints">
+                                                            <exclude reference="aW6-GA-jEF"/>
+                                                            <include reference="aXR-ae-v6U"/>
+                                                        </mask>
+                                                    </variation>
+                                                </imageView>
                                             </subviews>
                                             <animations/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <animations/>
+                                        <rect key="contentStretch" x="0.0" y="0.0" width="0.0" height="0.0"/>
                                         <constraints>
-                                            <constraint firstItem="9dc-5e-ggT" firstAttribute="centerX" secondItem="Fos-gd-GDi" secondAttribute="centerX" id="2QY-a0-drq"/>
                                             <constraint firstItem="anp-zY-AcF" firstAttribute="centerY" secondItem="Fos-gd-GDi" secondAttribute="centerY" id="69O-F3-I3X"/>
-                                            <constraint firstItem="9dc-5e-ggT" firstAttribute="centerY" secondItem="Fos-gd-GDi" secondAttribute="centerY" id="7Yg-B8-ebt"/>
+                                            <constraint firstAttribute="trailing" secondItem="9dc-5e-ggT" secondAttribute="trailing" constant="5" id="VK8-gZ-F9b"/>
+                                            <constraint firstItem="9dc-5e-ggT" firstAttribute="leading" secondItem="Fos-gd-GDi" secondAttribute="leading" constant="4" id="Yc9-lO-6GN"/>
                                             <constraint firstItem="anp-zY-AcF" firstAttribute="centerX" secondItem="Fos-gd-GDi" secondAttribute="centerX" id="a7G-8m-dOb"/>
                                         </constraints>
                                         <variation key="default">
                                             <mask key="subviews">
-                                                <exclude reference="9dc-5e-ggT"/>
                                                 <exclude reference="anp-zY-AcF"/>
+                                                <exclude reference="9dc-5e-ggT"/>
                                             </mask>
                                             <mask key="constraints">
+                                                <exclude reference="VK8-gZ-F9b"/>
+                                                <exclude reference="Yc9-lO-6GN"/>
                                                 <exclude reference="69O-F3-I3X"/>
                                                 <exclude reference="a7G-8m-dOb"/>
-                                                <exclude reference="2QY-a0-drq"/>
-                                                <exclude reference="7Yg-B8-ebt"/>
                                             </mask>
                                         </variation>
                                         <variation key="widthClass=compact">
                                             <mask key="subviews">
-                                                <include reference="9dc-5e-ggT"/>
                                                 <include reference="anp-zY-AcF"/>
+                                                <include reference="9dc-5e-ggT"/>
                                             </mask>
                                             <mask key="constraints">
+                                                <include reference="VK8-gZ-F9b"/>
+                                                <include reference="Yc9-lO-6GN"/>
                                                 <include reference="69O-F3-I3X"/>
                                                 <include reference="a7G-8m-dOb"/>
-                                                <include reference="2QY-a0-drq"/>
-                                                <include reference="7Yg-B8-ebt"/>
                                             </mask>
                                         </variation>
                                         <connections>
@@ -266,8 +283,6 @@
                             <constraint firstItem="AP9-x2-bsp" firstAttribute="top" secondItem="vWc-qA-rYZ" secondAttribute="bottom" constant="-2" id="Q6S-Vb-S4B">
                                 <variation key="widthClass=compact" constant="0.0"/>
                             </constraint>
-                            <constraint firstItem="vWc-qA-rYZ" firstAttribute="leading" secondItem="76W-Ig-a4y" secondAttribute="leading" id="erq-F0-ycY"/>
-                            <constraint firstAttribute="trailing" secondItem="vWc-qA-rYZ" secondAttribute="trailing" id="hTp-SC-Grr"/>
                             <constraint firstItem="5z3-qL-zkW" firstAttribute="top" secondItem="FQ8-CZ-8yT" secondAttribute="bottom" id="jAw-60-8on"/>
                             <constraint firstAttribute="trailing" secondItem="vWc-qA-rYZ" secondAttribute="trailing" id="pfG-Eh-nH2"/>
                             <constraint firstItem="vWc-qA-rYZ" firstAttribute="top" secondItem="K5F-sN-IgK" secondAttribute="bottom" constant="1" id="xz6-Tp-3Pi"/>
@@ -287,8 +302,6 @@
                                 <exclude reference="N9W-Cb-lJ4"/>
                                 <exclude reference="Q6S-Vb-S4B"/>
                                 <exclude reference="KfT-ev-q6W"/>
-                                <exclude reference="erq-F0-ycY"/>
-                                <exclude reference="hTp-SC-Grr"/>
                                 <exclude reference="pfG-Eh-nH2"/>
                                 <exclude reference="xz6-Tp-3Pi"/>
                             </mask>
@@ -308,8 +321,6 @@
                                 <include reference="N9W-Cb-lJ4"/>
                                 <include reference="Q6S-Vb-S4B"/>
                                 <include reference="KfT-ev-q6W"/>
-                                <exclude reference="erq-F0-ycY"/>
-                                <exclude reference="hTp-SC-Grr"/>
                                 <include reference="pfG-Eh-nH2"/>
                                 <include reference="xz6-Tp-3Pi"/>
                             </mask>

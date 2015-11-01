@@ -27,6 +27,10 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         
         self.getPhotos()
         
+        if pin == nil {
+            print("No pin")
+        }
+        
 
     }
     
@@ -37,14 +41,15 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         let cell = photosCollectionView.dequeueReusableCellWithReuseIdentifier("photoCell", forIndexPath: indexPath) as! PhotoCollectionViewCell
-        
         cell.animate()
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {
             if let url = NSURL(string: self.photos[indexPath.row].url_m) {
                 if let data = NSData(contentsOfURL: url) {
                     dispatch_async(dispatch_get_main_queue(), {
+                        
                         cell.imageView?.image = UIImage(data: data)
+                        
                         cell.stopAnimate()
                         
                     })
@@ -64,14 +69,10 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     func centerMapOnCoordinates(pin: Pin) {
-        
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = pin.coordinate
-        
+
+        self.mapView.addAnnotation(pin)
             
-        self.mapView.addAnnotation(annotation)
-            
-        let region = MKCoordinateRegionMakeWithDistance(pin.coordinate, 5000, 5000)
+        let region = MKCoordinateRegionMakeWithDistance(pin.coordinate, 20000, 20000)
         self.mapView.setRegion(region, animated: true)
             
     }
@@ -86,7 +87,6 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     func getPhotos() {
-        
         
         VTClient.sharedInstance().getPhotosInLocation(pin!.coordinate) { result, error in
             if let error = error {
