@@ -43,6 +43,9 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         let cell = photosCollectionView.dequeueReusableCellWithReuseIdentifier("photoCell", forIndexPath: indexPath) as! PhotoCollectionViewCell
         cell.animate()
         
+        cell.imageView.contentMode = .ScaleAspectFill
+        cell.contentMode = .ScaleAspectFill
+        
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {
             if let url = NSURL(string: self.photos[indexPath.row].url_m) {
                 if let data = NSData(contentsOfURL: url) {
@@ -51,7 +54,6 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
                         cell.imageView?.image = UIImage(data: data)
                         
                         cell.stopAnimate()
-                        
                     })
                     
                 }
