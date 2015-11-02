@@ -47,7 +47,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
-                                        <variation key="widthClass=compact" fixedFrame="YES">
+                                        <variation key="widthClass=compact" ambiguous="YES">
                                             <rect key="frame" x="131" y="14" width="139" height="21"/>
                                         </variation>
                                     </label>
@@ -55,7 +55,9 @@
                                 <animations/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
                                 <constraints>
+                                    <constraint firstItem="iHd-9j-6M4" firstAttribute="centerX" secondItem="E1h-WV-qF6" secondAttribute="centerX" id="E2P-hi-rG6"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="RQQ-Yv-Ooj"/>
+                                    <constraint firstItem="iHd-9j-6M4" firstAttribute="centerY" secondItem="E1h-WV-qF6" secondAttribute="centerY" id="fWK-Tz-ccK"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="subviews">
@@ -63,6 +65,8 @@
                                     </mask>
                                     <mask key="constraints">
                                         <exclude reference="RQQ-Yv-Ooj"/>
+                                        <exclude reference="E2P-hi-rG6"/>
+                                        <exclude reference="fWK-Tz-ccK"/>
                                     </mask>
                                 </variation>
                                 <variation key="widthClass=compact" ambiguous="YES">
@@ -72,6 +76,8 @@
                                     </mask>
                                     <mask key="constraints">
                                         <include reference="RQQ-Yv-Ooj"/>
+                                        <include reference="E2P-hi-rG6"/>
+                                        <include reference="fWK-Tz-ccK"/>
                                     </mask>
                                 </variation>
                             </view>
@@ -241,10 +247,10 @@
                                                 <exclude reference="9dc-5e-ggT"/>
                                             </mask>
                                             <mask key="constraints">
-                                                <exclude reference="VK8-gZ-F9b"/>
-                                                <exclude reference="Yc9-lO-6GN"/>
                                                 <exclude reference="69O-F3-I3X"/>
                                                 <exclude reference="a7G-8m-dOb"/>
+                                                <exclude reference="VK8-gZ-F9b"/>
+                                                <exclude reference="Yc9-lO-6GN"/>
                                             </mask>
                                         </variation>
                                         <variation key="widthClass=compact">
@@ -253,10 +259,10 @@
                                                 <include reference="9dc-5e-ggT"/>
                                             </mask>
                                             <mask key="constraints">
-                                                <include reference="VK8-gZ-F9b"/>
-                                                <include reference="Yc9-lO-6GN"/>
                                                 <include reference="69O-F3-I3X"/>
                                                 <include reference="a7G-8m-dOb"/>
+                                                <include reference="VK8-gZ-F9b"/>
+                                                <include reference="Yc9-lO-6GN"/>
                                             </mask>
                                         </variation>
                                         <connections>

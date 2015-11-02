@@ -36,6 +36,7 @@ extension VTClient {
         static let perPage: String = "per_page"
         static let extras: String = "extras"
         static let noJsonCallback: String = "nojsoncallback"
+        static let page: String = "page"
     }
     
     enum ApiMethods: String {

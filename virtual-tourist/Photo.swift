@@ -52,12 +52,12 @@ class Photo: NSManagedObject {
         
         let filePath = "\(paths)/\(self.id).jpg"
         
-        
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
             if let url = NSURL(string: self.url_m) {
                 let image =  UIImage(data: NSData(contentsOfURL: url)!)
                 UIImageJPEGRepresentation(image!, 100.0)?.writeToFile(filePath, atomically: true)
                 self.filePath = filePath
+                print(self.filePath)
             }
         }
         

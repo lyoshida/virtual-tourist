@@ -14,6 +14,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     
     var pin: Pin?
     var photos: [Photo]?
+    var page: Int = 1
     
     
     @IBOutlet weak var mapView: MKMapView!
@@ -30,7 +31,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         
         if pin!.photos.isEmpty {
             print("no local photos found. Requesting.")
-            self.getPhotos()
+            self.getPhotos(page)
         } else {
             print("local photos found.")
             dispatch_async(dispatch_get_main_queue(), {
@@ -97,15 +98,19 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     @IBAction func loadNewCollection(sender: UIBarButtonItem) {
+        self.page += 1
         print("Retrieving new photos")
-        self.pin!.photos = [Photo]()
-        self.getPhotos()
-        self.photosCollectionView.reloadData()
+        self.pin!.removePhotosFromDisk()
+        self.pin!.removePhotos()
+        self.getPhotos(self.page)
+        dispatch_async(dispatch_get_main_queue(), {
+            self.photosCollectionView.reloadData()
+        })
     }
     
-    func getPhotos() {
+    func getPhotos(page: Int) {
         
-        VTClient.sharedInstance().getPhotosInLocation(self.pin!) { result, error in
+        VTClient.sharedInstance().getPhotosInLocation(self.pin!, page: page) { result, error in
             if let error = error {
                 print(error)
             } else {

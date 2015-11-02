@@ -11,7 +11,7 @@ import MapKit
 
 extension VTClient {
     
-    func getPhotosInLocation(pin: Pin, completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> Void {
+    func getPhotosInLocation(pin: Pin, page: Int = 1, completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> Void {
         
         let params: [String: String] = [
             VTClient.ParameterKeys.method: VTClient.ApiMethods.photoSearch.rawValue,
@@ -20,7 +20,8 @@ extension VTClient {
             VTClient.ParameterKeys.bbox: createBoundingBoxString(pin.coordinate),
             VTClient.ParameterKeys.extras: "url_m",
             VTClient.ParameterKeys.perPage: "20",
-            VTClient.ParameterKeys.noJsonCallback: "1"
+            VTClient.ParameterKeys.noJsonCallback: "1",
+            VTClient.ParameterKeys.page: String(page)
         ]
         
         taskForGETMethod(VTClient.Constants.flickrUrl, parameters: params) { result, error in

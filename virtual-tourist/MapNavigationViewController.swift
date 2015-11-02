@@ -66,6 +66,7 @@ class MapNavigationViewController: UIViewController, MKMapViewDelegate {
             
         } else {
             
+            self.currentPin?.removePhotosFromDisk()
             sharedContext.deleteObject(self.currentPin!)
             self.navigationMapView.removeAnnotation(view.annotation!)
 
