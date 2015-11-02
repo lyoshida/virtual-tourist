@@ -13,6 +13,7 @@ import UIKit
 class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout  {
     
     var pin: Pin?
+    var photos: [Photo]?
     
     
     @IBOutlet weak var mapView: MKMapView!
@@ -27,11 +28,17 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
 
         self.centerMapOnCoordinates(pin!)
         
-        if pin!.photos == [] {
+        if pin!.photos.isEmpty {
+            print("no local photos found. Requesting.")
             self.getPhotos()
+        } else {
+            print("local photos found.")
+            dispatch_async(dispatch_get_main_queue(), {
+                self.photosCollectionView.reloadData()
+            })
+            
         }
-        
-
+    
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -46,26 +53,29 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         cell.imageView.contentMode = .ScaleAspectFill
         cell.contentMode = .ScaleAspectFill
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {
+        
+
+        let photo = self.pin!.photos[indexPath.row] as Photo
             
-            if let data = NSData(contentsOfFile: self.pin!.photos[indexPath.row].filePath) {
+        if let image = photo.getImageFromDisk() {
+            print("reading image from disk")
+            dispatch_async(dispatch_get_main_queue(), {
+                print(image)
+                cell.imageView.image = image
+                cell.stopAnimate()
+            })
+        } else {
+            print("getting images from URL")
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {
+                let image = photo.getImageFromURL()
+                print(image)
                 dispatch_async(dispatch_get_main_queue(), {
-                    cell.imageView.image = UIImage(data: data)
+                    cell.imageView.image = image
+                    cell.stopAnimate()
                 })
-            }
-            
-//            if let url = NSURL(string: self.photos[indexPath.row].url_m) {
-//                if let data = NSData(contentsOfURL: url) {
-//                    dispatch_async(dispatch_get_main_queue(), {
-//                        
-//                        cell.imageView?.image = UIImage(data: data)
-//                        
-//                        cell.stopAnimate()
-//                    })
-//                    
-//                }
-//            }
-        })
+            })
+        }
+        
         
         return cell
     }
@@ -89,33 +99,16 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     @IBAction func loadNewCollection(sender: UIBarButtonItem) {
         print("Retrieving new photos")
         self.pin!.photos = [Photo]()
-        
-        self.photosCollectionView.reloadData()
         self.getPhotos()
-        
+        self.photosCollectionView.reloadData()
     }
     
     func getPhotos() {
         
-        VTClient.sharedInstance().getPhotosInLocation(pin!.coordinate) { result, error in
+        VTClient.sharedInstance().getPhotosInLocation(self.pin!) { result, error in
             if let error = error {
                 print(error)
             } else {
-                
-                if let photos = result as? [Photo] {
-                    for photo in photos {
-                        photo.pin = self.pin
-                        self.pin!.photos.append(photo)
-                    }
-                }
-                
-                do {
-                    try self.sharedContext.save()
-                } catch let error as NSError {
-                    print("Error removing pin.")
-                    print(error)
-                }
-
                 dispatch_async(dispatch_get_main_queue(), {
                     self.photosCollectionView.reloadData()
                 })

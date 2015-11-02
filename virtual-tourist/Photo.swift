@@ -26,7 +26,7 @@ class Photo: NSManagedObject {
         
     }
     
-    init(dictionary: [String : AnyObject], context: NSManagedObjectContext) {
+    init(dictionary: [String : AnyObject], pin: Pin, context: NSManagedObjectContext) {
         let entity =  NSEntityDescription.entityForName("Photo", inManagedObjectContext: context)!
         super.init(entity: entity, insertIntoManagedObjectContext: context)
         
@@ -41,21 +41,24 @@ class Photo: NSManagedObject {
         
         url_m = dictionary["url_m"] as! String
         
+        self.pin = pin
+        
         self.saveFileToDisk()
     }
     
     func saveFileToDisk() {
         
-        let fileManager = NSFileManager.defaultManager()
-        
         let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
         
         let filePath = "\(paths)/\(self.id).jpg"
         
-        if let url = NSURL(string: self.url_m) {
-            let imageData = NSData(contentsOfURL: url)
-            fileManager.createFileAtPath(filePath, contents: imageData, attributes: nil)
-            self.filePath = filePath
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+            if let url = NSURL(string: self.url_m) {
+                let image =  UIImage(data: NSData(contentsOfURL: url)!)
+                UIImageJPEGRepresentation(image!, 100.0)?.writeToFile(filePath, atomically: true)
+                self.filePath = filePath
+            }
         }
         
     }
@@ -80,9 +83,24 @@ class Photo: NSManagedObject {
         
         if (fileManager.fileExistsAtPath(self.filePath)) {
             image =  UIImage(contentsOfFile: self.filePath)!
+            return image
+        } else {
+            return nil
         }
         
-        return image
+    }
+    
+    func getImageFromURL() -> UIImage? {
+        
+        var image: UIImage = UIImage()
+
+        if let url = NSURL(string: self.url_m) {
+            image = UIImage(data: NSData(contentsOfURL: url)!)!
+            return image
+        }
+        
+        return nil
+        
     }
     
 }

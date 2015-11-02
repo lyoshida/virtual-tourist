@@ -11,13 +11,13 @@ import MapKit
 
 extension VTClient {
     
-    func getPhotosInLocation(locationCoordinates: CLLocationCoordinate2D, completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> Void {
+    func getPhotosInLocation(pin: Pin, completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> Void {
         
         let params: [String: String] = [
             VTClient.ParameterKeys.method: VTClient.ApiMethods.photoSearch.rawValue,
             VTClient.ParameterKeys.apiKey: VTClient.Constants.flickrApiKey,
             VTClient.ParameterKeys.format: "json",
-            VTClient.ParameterKeys.bbox: createBoundingBoxString(locationCoordinates),
+            VTClient.ParameterKeys.bbox: createBoundingBoxString(pin.coordinate),
             VTClient.ParameterKeys.extras: "url_m",
             VTClient.ParameterKeys.perPage: "20",
             VTClient.ParameterKeys.noJsonCallback: "1"
@@ -35,7 +35,13 @@ extension VTClient {
                     if let photo = photos["photo"] as! [AnyObject]? {
                         for p in photo {
                             let photoJson = p as! [String: AnyObject]
-                            photoList.append(Photo(dictionary: photoJson, context: self.sharedContext))
+                            photoList.append(Photo(dictionary: photoJson, pin: pin, context: self.sharedContext))
+                        }
+                        
+                        do {
+                            try self.sharedContext.save()
+                        } catch _ {
+                            print("error saving context")
                         }
                     }
                 }
