@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 import CoreData
 
 @objc(Photo)
@@ -15,9 +16,14 @@ class Photo: NSManagedObject {
     @NSManaged var id: NSNumber
     @NSManaged var title: String
     @NSManaged var url_m: String
+    @NSManaged var filePath: String
+    @NSManaged var pin: Pin?
+    
     
     override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
+        
+        
     }
     
     init(dictionary: [String : AnyObject], context: NSManagedObjectContext) {
@@ -34,6 +40,49 @@ class Photo: NSManagedObject {
         }
         
         url_m = dictionary["url_m"] as! String
+        
+        self.saveFileToDisk()
+    }
+    
+    func saveFileToDisk() {
+        
+        let fileManager = NSFileManager.defaultManager()
+        
+        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
+        
+        let filePath = "\(paths)/\(self.id).jpg"
+        
+        if let url = NSURL(string: self.url_m) {
+            let imageData = NSData(contentsOfURL: url)
+            fileManager.createFileAtPath(filePath, contents: imageData, attributes: nil)
+            self.filePath = filePath
+        }
+        
+    }
+    
+    func deleteImageFromDisk() {
+        
+        let fileManager = NSFileManager.defaultManager()
+        if (fileManager.fileExistsAtPath(self.filePath)) {
+            do {
+                try fileManager.removeItemAtPath(self.filePath)
+            } catch _ {
+                print("Error removing file.")
+            }
+        }
+    }
+    
+    func getImageFromDisk() -> UIImage? {
+        
+        let fileManager = NSFileManager.defaultManager()
+    
+        var image: UIImage = UIImage()
+        
+        if (fileManager.fileExistsAtPath(self.filePath)) {
+            image =  UIImage(contentsOfFile: self.filePath)!
+        }
+        
+        return image
     }
     
 }

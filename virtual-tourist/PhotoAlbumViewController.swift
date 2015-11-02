@@ -7,12 +7,12 @@
 //
 
 import MapKit
+import CoreData
 import UIKit
 
 class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout  {
     
     var pin: Pin?
-    var photos: [Photo] = []
     
     
     @IBOutlet weak var mapView: MKMapView!
@@ -20,22 +20,22 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     @IBOutlet weak var newCollectionButton: UIToolbar!
     @IBOutlet weak var photosCollectionView: UICollectionView!
     
+    var sharedContext: NSManagedObjectContext = CoreDataStackManager.sharedInstance().managedObjectContext
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.centerMapOnCoordinates(pin!)
         
-        self.getPhotos()
-        
-        if pin == nil {
-            print("No pin")
+        if pin!.photos == [] {
+            self.getPhotos()
         }
         
 
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return photos.count
+        return self.pin!.photos.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
@@ -47,17 +47,24 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         cell.contentMode = .ScaleAspectFill
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {
-            if let url = NSURL(string: self.photos[indexPath.row].url_m) {
-                if let data = NSData(contentsOfURL: url) {
-                    dispatch_async(dispatch_get_main_queue(), {
-                        
-                        cell.imageView?.image = UIImage(data: data)
-                        
-                        cell.stopAnimate()
-                    })
-                    
-                }
+            
+            if let data = NSData(contentsOfFile: self.pin!.photos[indexPath.row].filePath) {
+                dispatch_async(dispatch_get_main_queue(), {
+                    cell.imageView.image = UIImage(data: data)
+                })
             }
+            
+//            if let url = NSURL(string: self.photos[indexPath.row].url_m) {
+//                if let data = NSData(contentsOfURL: url) {
+//                    dispatch_async(dispatch_get_main_queue(), {
+//                        
+//                        cell.imageView?.image = UIImage(data: data)
+//                        
+//                        cell.stopAnimate()
+//                    })
+//                    
+//                }
+//            }
         })
         
         return cell
@@ -81,7 +88,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     
     @IBAction func loadNewCollection(sender: UIBarButtonItem) {
         print("Retrieving new photos")
-        self.photos = [Photo]()
+        self.pin!.photos = [Photo]()
         
         self.photosCollectionView.reloadData()
         self.getPhotos()
@@ -94,7 +101,20 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
             if let error = error {
                 print(error)
             } else {
-                self.photos = result as! [Photo]
+                
+                if let photos = result as? [Photo] {
+                    for photo in photos {
+                        photo.pin = self.pin
+                        self.pin!.photos.append(photo)
+                    }
+                }
+                
+                do {
+                    try self.sharedContext.save()
+                } catch let error as NSError {
+                    print("Error removing pin.")
+                    print(error)
+                }
 
                 dispatch_async(dispatch_get_main_queue(), {
                     self.photosCollectionView.reloadData()
@@ -103,7 +123,6 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
             }
         }
 
-        
     }
     
     

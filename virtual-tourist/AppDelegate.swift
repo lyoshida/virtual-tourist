@@ -13,6 +13,7 @@
 
 // Refs
 // Persistent Pins: http://www.juliusdanek.de/blog/coding/2015/07/14/persistent-pins-tutorial/
+// Saving/Loading images: http://iostechsolutions.blogspot.com.br/2014/11/swift-save-and-load-image-from.html
 
 import UIKit
 import CoreData
