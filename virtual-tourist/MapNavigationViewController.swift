@@ -25,6 +25,7 @@ class MapNavigationViewController: UIViewController, MKMapViewDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         self.deletePinView.hidden = true
+        self.editMode = false
         
         self.initializeGestureRecognizer()
         
@@ -33,7 +34,14 @@ class MapNavigationViewController: UIViewController, MKMapViewDelegate {
         
         self.loadPins()
     }
-
+    
+    override func viewWillAppear(animated: Bool) {
+        self.deletePinView.hidden = true
+        self.editMode = false
+        
+        self.loadPins()
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -58,6 +66,7 @@ class MapNavigationViewController: UIViewController, MKMapViewDelegate {
     
     func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
         
+        print("selected pin")
         self.currentPin = view.annotation as? Pin
         
         if self.editMode == false {
@@ -66,9 +75,13 @@ class MapNavigationViewController: UIViewController, MKMapViewDelegate {
             
         } else {
             
-            self.currentPin?.removePhotosFromDisk()
-            sharedContext.deleteObject(self.currentPin!)
+            print("remove pin")
+            
             self.navigationMapView.removeAnnotation(view.annotation!)
+            self.currentPin?.removePhotos()
+            self.sharedContext.deleteObject(self.currentPin!)
+            self.loadPins()
+            
 
             do {
                 try self.sharedContext.save()
@@ -76,7 +89,6 @@ class MapNavigationViewController: UIViewController, MKMapViewDelegate {
                 print("Error removing pin.")
                 print(error)
             }
-
 
         }
         
@@ -108,26 +120,25 @@ class MapNavigationViewController: UIViewController, MKMapViewDelegate {
         let touchMapCoordinate = self.navigationMapView.convertPoint(touchPoint, toCoordinateFromView: navigationMapView)
         
         let annotation = Pin(annotationLatitude: touchMapCoordinate.latitude, annotationLongitude: touchMapCoordinate.longitude, context: sharedContext)
-
         
         self.navigationMapView.addAnnotation(annotation)
         
         // Saves the Pin
         
-        dispatch_async(dispatch_get_main_queue(), {
-            
-            let latitude: Double = Double(annotation.coordinate.latitude)
-            let longitude: Double = Double(annotation.coordinate.longitude)
-            _ = Pin(annotationLatitude: latitude, annotationLongitude: longitude, context: self.sharedContext)
-            
-            do {
-                try self.sharedContext.save()
-            } catch let error as NSError {
-                print("Error saving pin.")
-                print(error)
-            }
-
-        })
+        
+        
+        let latitude: Double = Double(annotation.coordinate.latitude)
+        let longitude: Double = Double(annotation.coordinate.longitude)
+        _ = Pin(annotationLatitude: latitude, annotationLongitude: longitude, context: self.sharedContext)
+        
+        do {
+            try self.sharedContext.save()
+        } catch let error as NSError {
+            print("Error saving pin.")
+            print(error)
+        }
+        
+        
         
     }
     

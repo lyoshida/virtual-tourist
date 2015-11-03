@@ -19,7 +19,7 @@ extension VTClient {
             VTClient.ParameterKeys.format: "json",
             VTClient.ParameterKeys.bbox: createBoundingBoxString(pin.coordinate),
             VTClient.ParameterKeys.extras: "url_m",
-            VTClient.ParameterKeys.perPage: "20",
+            VTClient.ParameterKeys.perPage: "21",
             VTClient.ParameterKeys.noJsonCallback: "1",
             VTClient.ParameterKeys.page: String(page)
         ]

@@ -19,6 +19,8 @@ class Photo: NSManagedObject {
     @NSManaged var filePath: String
     @NSManaged var pin: Pin?
     
+    let sharedContext = CoreDataStackManager.sharedInstance().managedObjectContext
+    
     
     override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
@@ -57,7 +59,7 @@ class Photo: NSManagedObject {
                 let image =  UIImage(data: NSData(contentsOfURL: url)!)
                 UIImageJPEGRepresentation(image!, 100.0)?.writeToFile(filePath, atomically: true)
                 self.filePath = filePath
-                print(self.filePath)
+                
             }
         }
         
@@ -65,14 +67,22 @@ class Photo: NSManagedObject {
     
     func deleteImageFromDisk() {
         
+        print("preparing to remove file: \(self.filePath).")
         let fileManager = NSFileManager.defaultManager()
         if (fileManager.fileExistsAtPath(self.filePath)) {
+            print("file found. removing...")
             do {
+                print("removing file \(self.filePath)")
                 try fileManager.removeItemAtPath(self.filePath)
             } catch _ {
                 print("Error removing file.")
             }
         }
+    }
+    
+    func deletePhoto() {
+        deleteImageFromDisk()
+        self.sharedContext.deleteObject(self)
     }
     
     func getImageFromDisk() -> UIImage? {

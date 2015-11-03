@@ -88,6 +88,14 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         return CGSize(width: photoWidth, height: photoWidth)
     }
     
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        self.pin!.photos[indexPath.row].deletePhoto()
+        dispatch_async(dispatch_get_main_queue(), {
+            self.photosCollectionView.reloadData()
+        })
+        
+    }
+    
     func centerMapOnCoordinates(pin: Pin) {
 
         self.mapView.addAnnotation(pin)
@@ -100,7 +108,6 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     @IBAction func loadNewCollection(sender: UIBarButtonItem) {
         self.page += 1
         print("Retrieving new photos")
-        self.pin!.removePhotosFromDisk()
         self.pin!.removePhotos()
         self.getPhotos(self.page)
         dispatch_async(dispatch_get_main_queue(), {
@@ -109,17 +116,26 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     func getPhotos(page: Int) {
-        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {
         VTClient.sharedInstance().getPhotosInLocation(self.pin!, page: page) { result, error in
             if let error = error {
                 print(error)
             } else {
+                
+                do {
+                    try self.sharedContext.save()
+                } catch let error as NSError {
+                    print("Error saving photo.")
+                    print(error)
+                }
+                
                 dispatch_async(dispatch_get_main_queue(), {
                     self.photosCollectionView.reloadData()
                 })
                 
             }
         }
+        })
 
     }
     
