@@ -76,22 +76,19 @@ class MapNavigationViewController: UIViewController, MKMapViewDelegate {
         } else {
             
             print("remove pin")
-            
-            self.navigationMapView.removeAnnotation(view.annotation!)
             self.currentPin?.removePhotos()
+            self.navigationMapView.removeAnnotation(view.annotation!)
             self.sharedContext.deleteObject(self.currentPin!)
-            self.loadPins()
-            
 
             do {
                 try self.sharedContext.save()
+                self.loadPins()
             } catch let error as NSError {
                 print("Error removing pin.")
                 print(error)
             }
 
         }
-        
         
     }
     
@@ -138,12 +135,14 @@ class MapNavigationViewController: UIViewController, MKMapViewDelegate {
             print(error)
         }
         
-        
-        
     }
     
     // Loads saved pins and add them to the map.
     func loadPins() {
+        
+        for annotation: MKAnnotation in self.navigationMapView.annotations {
+            self.navigationMapView.removeAnnotation(annotation)
+        }
         
         let fetchRequest = NSFetchRequest(entityName: "Pin")
         

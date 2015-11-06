@@ -110,9 +110,6 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         print("Retrieving new photos")
         self.pin!.removePhotos()
         self.getPhotos(self.page)
-        dispatch_async(dispatch_get_main_queue(), {
-            self.photosCollectionView.reloadData()
-        })
     }
     
     func getPhotos(page: Int) {

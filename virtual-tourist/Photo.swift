@@ -24,8 +24,6 @@ class Photo: NSManagedObject {
     
     override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
-        
-        
     }
     
     init(dictionary: [String : AnyObject], pin: Pin, context: NSManagedObjectContext) {
