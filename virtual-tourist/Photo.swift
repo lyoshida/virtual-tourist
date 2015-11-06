@@ -50,12 +50,23 @@ class Photo: NSManagedObject {
     }
     
     func saveFileToDisk() {
-        
+
+        let url = NSURL(string: self.url_m)
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
-            if let url = NSURL(string: self.url_m) {
-                let image =  UIImage(data: NSData(contentsOfURL: url)!)
+            
+
+            let image = UIImage(data: NSData(contentsOfURL: url!)!)
+            
+            dispatch_async(dispatch_get_main_queue(), {
                 UIImageJPEGRepresentation(image!, 100.0)?.writeToFile(self.filePath, atomically: true)
-            }
+            })
+            
+//            if let url = NSURL(string: self.url_m) {
+//                dispatch_async(dispatch_get_main_queue(), {
+//                    let image =  UIImage(data: NSData(contentsOfURL: url)!)
+//                    UIImageJPEGRepresentation(image!, 100.0)?.writeToFile(self.filePath, atomically: true)
+//                })
+//            }
         }
         
     }
@@ -98,13 +109,22 @@ class Photo: NSManagedObject {
     func getImageFromURL() -> UIImage? {
         
         var image: UIImage = UIImage()
+        var url: NSURL = NSURL()
+        dispatch_async(dispatch_get_main_queue(), {
+            url = NSURL(string: self.url_m)!
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {
+                
+                image = UIImage(data: NSData(contentsOfURL: url)!)!
+                
+            })
+        })
 
-        if let url = NSURL(string: self.url_m) {
-            image = UIImage(data: NSData(contentsOfURL: url)!)!
-            return image
-        }
         
-        return nil
+
+//        if let url = NSURL(string: self.url_m) {
+//            image = UIImage(data: NSData(contentsOfURL: url)!)!
+//            return image
+//        }
         
     }
     

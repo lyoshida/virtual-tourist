@@ -113,18 +113,20 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     func getPhotos(page: Int) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {
+
         VTClient.sharedInstance().getPhotosInLocation(self.pin!, page: page) { result, error in
             if let error = error {
                 print(error)
             } else {
                 
-                do {
-                    try self.sharedContext.save()
-                } catch let error as NSError {
-                    print("Error saving photo.")
-                    print(error)
-                }
+                dispatch_async(dispatch_get_main_queue(), {
+                    do {
+                        try self.sharedContext.save()
+                    } catch let error as NSError {
+                        print("Error saving photo.")
+                        print(error)
+                    }
+                })
                 
                 dispatch_async(dispatch_get_main_queue(), {
                     self.photosCollectionView.reloadData()
@@ -132,7 +134,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
                 
             }
         }
-        })
+
 
     }
     
