@@ -16,8 +16,18 @@ class Photo: NSManagedObject {
     @NSManaged var id: NSNumber
     @NSManaged var title: String
     @NSManaged var url_m: String
-    @NSManaged var filePath: String
     @NSManaged var pin: Pin?
+    
+    var filePath: String {
+        let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
+        var path: String = ""
+        
+        self.sharedContext.performBlockAndWait() {
+            path = "\(documentDirectory)/\(self.id).jpg"
+        }
+        
+        return path
+    }
     
     let sharedContext = CoreDataStackManager.sharedInstance().managedObjectContext
     
@@ -30,7 +40,6 @@ class Photo: NSManagedObject {
         let entity =  NSEntityDescription.entityForName("Photo", inManagedObjectContext: context)!
         super.init(entity: entity, insertIntoManagedObjectContext: context)
         
-
         title = dictionary["title"] as! String
         
         if let idString = dictionary["id"] as! String? {
@@ -42,31 +51,15 @@ class Photo: NSManagedObject {
         url_m = dictionary["url_m"] as! String
         
         self.pin = pin
-
-        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
-        self.filePath = "\(paths)/\(self.id).jpg"
         
-        self.saveFileToDisk()
     }
     
-    func saveFileToDisk() {
+    func saveFileToDisk(image: UIImage) {
 
-        let url = NSURL(string: self.url_m)
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
             
-
-            let image = UIImage(data: NSData(contentsOfURL: url!)!)
+            UIImageJPEGRepresentation(image, 100.0)?.writeToFile(self.filePath, atomically: true)
             
-            dispatch_async(dispatch_get_main_queue(), {
-                UIImageJPEGRepresentation(image!, 100.0)?.writeToFile(self.filePath, atomically: true)
-            })
-            
-//            if let url = NSURL(string: self.url_m) {
-//                dispatch_async(dispatch_get_main_queue(), {
-//                    let image =  UIImage(data: NSData(contentsOfURL: url)!)
-//                    UIImageJPEGRepresentation(image!, 100.0)?.writeToFile(self.filePath, atomically: true)
-//                })
-//            }
         }
         
     }
@@ -75,7 +68,7 @@ class Photo: NSManagedObject {
         
         print("preparing to remove file: \(self.filePath).")
         let fileManager = NSFileManager.defaultManager()
-        if (fileManager.fileExistsAtPath(self.filePath)) {
+        if self.fileExists() {
             print("file found. removing...")
             do {
                 print("removing file \(self.filePath)")
@@ -91,41 +84,79 @@ class Photo: NSManagedObject {
         self.sharedContext.deleteObject(self)
     }
     
-    func getImageFromDisk() -> UIImage? {
+    /**
+      Check if the image file is avaiable at self.filePath
+    */
+    func fileExists() -> Bool {
         
-        let fileManager = NSFileManager.defaultManager()
-    
-        var image: UIImage = UIImage()
+        var exists: Bool = false
         
-        if (fileManager.fileExistsAtPath(self.filePath)) {
-            image =  UIImage(contentsOfFile: self.filePath)!
-            return image
-        } else {
-            return nil
+        self.sharedContext.performBlockAndWait() {
+            exists = NSFileManager.defaultManager().fileExistsAtPath(self.filePath)
+
         }
         
+        return exists
+    }
+    
+    /**
+      Return the saved image if it's on the disk
+    */
+    func getImageFromDisk() -> UIImage? {
+        
+        var image: UIImage?
+        
+        self.sharedContext.performBlockAndWait() {
+            if self.fileExists() {
+                print("returning UIImage from disk")
+                image = UIImage(contentsOfFile: self.filePath)
+            }
+        }
+        
+        return image
     }
     
     func getImageFromURL() -> UIImage? {
         
-        var image: UIImage = UIImage()
-        var url: NSURL = NSURL()
+        var image: UIImage?
+        
+            let url = NSURL(string: self.url_m)
+            
+            image = UIImage(data: (NSData(contentsOfURL: url!)!))
+            if !self.fileExists() {
+                self.saveFileToDisk(image!)
+                
+            }
+        
+        print("returning from URL: \(image)")
+        return image
+
+    }
+    
+    func getImage() -> UIImage? {
+        
+        print(self.filePath)
+        
+        if self.fileExists() {
+            print("getImage: from disk")
+            return self.getImageFromDisk()
+        } else {
+            print("getImage: from URL")
+            return self.getImageFromURL()
+        }
+        
+        
+    }
+    
+    func saveSharedContext() {
         dispatch_async(dispatch_get_main_queue(), {
-            url = NSURL(string: self.url_m)!
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {
-                
-                image = UIImage(data: NSData(contentsOfURL: url)!)!
-                
-            })
+            do {
+                try self.sharedContext.save()
+            } catch let error as NSError {
+                print("Error saving photo.")
+                print(error)
+            }
         })
-
-        
-
-//        if let url = NSURL(string: self.url_m) {
-//            image = UIImage(data: NSData(contentsOfURL: url)!)!
-//            return image
-//        }
-        
     }
     
 }

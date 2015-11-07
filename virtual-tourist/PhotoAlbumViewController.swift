@@ -32,11 +32,10 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         if pin!.photos.isEmpty {
             print("no local photos found. Requesting.")
             self.getPhotos(page)
+            self.saveSharedContext()
         } else {
             print("local photos found.")
-            dispatch_async(dispatch_get_main_queue(), {
-                self.photosCollectionView.reloadData()
-            })
+            self.photosCollectionView.reloadData()
             
         }
     
@@ -53,30 +52,19 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         
         cell.imageView.contentMode = .ScaleAspectFill
         cell.contentMode = .ScaleAspectFill
-        
-        
-
+    
         let photo = self.pin!.photos[indexPath.row] as Photo
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            let image = photo.getImage()
+            self.saveSharedContext()
             
-        if let image = photo.getImageFromDisk() {
-            print("reading image from disk")
-            dispatch_async(dispatch_get_main_queue(), {
-                print(image)
+            dispatch_async(dispatch_get_main_queue()) {
+            
                 cell.imageView.image = image
                 cell.stopAnimate()
-            })
-        } else {
-            print("getting images from URL")
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {
-                let image = photo.getImageFromURL()
-                print(image)
-                dispatch_async(dispatch_get_main_queue(), {
-                    cell.imageView.image = image
-                    cell.stopAnimate()
-                })
-            })
+            }
         }
-        
         
         return cell
     }
@@ -89,11 +77,12 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        // The method deletePhoto calls another method that removes the images from the disk.
         self.pin!.photos[indexPath.row].deletePhoto()
-        dispatch_async(dispatch_get_main_queue(), {
-            self.photosCollectionView.reloadData()
-        })
         
+        dispatch_async(dispatch_get_main_queue()) {
+            self.photosCollectionView.reloadData()
+        }
     }
     
     func centerMapOnCoordinates(pin: Pin) {
@@ -113,30 +102,33 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     func getPhotos(page: Int) {
-
-        VTClient.sharedInstance().getPhotosInLocation(self.pin!, page: page) { result, error in
-            if let error = error {
-                print(error)
-            } else {
-                
-                dispatch_async(dispatch_get_main_queue(), {
-                    do {
-                        try self.sharedContext.save()
-                    } catch let error as NSError {
-                        print("Error saving photo.")
-                        print(error)
-                    }
-                })
-                
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.photosCollectionView.reloadData()
-                })
-                
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            VTClient.sharedInstance().getPhotosInLocation(self.pin!, page: page) { result, error in
+                if let error = error {
+                    print(error)
+                } else {
+                    
+                    self.saveSharedContext()
+                    
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.photosCollectionView.reloadData()
+                    })
+                    
+                }
             }
         }
 
-
     }
     
-    
+    func saveSharedContext() {
+        dispatch_async(dispatch_get_main_queue(), {
+            do {
+                try self.sharedContext.save()
+            } catch let error as NSError {
+                print("Error saving photo.")
+                print(error)
+            }
+        })
+    }
 }

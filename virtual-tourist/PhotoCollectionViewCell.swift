@@ -20,5 +20,9 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     func stopAnimate() {
         self.activityIndicatorView.stopAnimating()
     }
+    
+    override func prepareForReuse() {
+        imageView.image = nil
+    }
 
 }
