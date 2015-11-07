@@ -18,6 +18,7 @@ class Pin: NSManagedObject, MKAnnotation {
     @NSManaged var longitude: NSNumber
     @NSManaged var photos: [Photo]
     
+    let sharedContext = CoreDataStackManager.sharedInstance().managedObjectContext
     
     override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
@@ -32,7 +33,13 @@ class Pin: NSManagedObject, MKAnnotation {
     }
     
     var coordinate: CLLocationCoordinate2D {
-        return CLLocationCoordinate2D(latitude: latitude as Double, longitude: longitude as Double)
+        var coord: CLLocationCoordinate2D?
+        
+        self.sharedContext.performBlockAndWait() {
+            coord = CLLocationCoordinate2D(latitude: self.latitude as Double, longitude: self.longitude as Double)
+        }
+        
+        return coord!
     }
         
     func removePhotos() {

@@ -18,6 +18,8 @@ class Photo: NSManagedObject {
     @NSManaged var url_m: String
     @NSManaged var pin: Pin?
     
+    var image: UIImage?
+    
     var filePath: String {
         let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
         var path: String = ""
@@ -119,16 +121,18 @@ class Photo: NSManagedObject {
     func getImageFromURL() -> UIImage? {
         
         var image: UIImage?
+        var url: NSURL?
+
+        self.sharedContext.performBlockAndWait() {
+            url = NSURL(string: self.url_m)
+        }
         
-            let url = NSURL(string: self.url_m)
+        image = UIImage(data: (NSData(contentsOfURL: url!)!))
+        if !self.fileExists() {
+            self.saveFileToDisk(image!)
             
-            image = UIImage(data: (NSData(contentsOfURL: url!)!))
-            if !self.fileExists() {
-                self.saveFileToDisk(image!)
-                
-            }
+        }
         
-        print("returning from URL: \(image)")
         return image
 
     }
@@ -143,6 +147,7 @@ class Photo: NSManagedObject {
         } else {
             print("getImage: from URL")
             return self.getImageFromURL()
+
         }
         
         

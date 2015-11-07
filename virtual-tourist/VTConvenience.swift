@@ -36,7 +36,9 @@ extension VTClient {
                     if let photo = photos["photo"] as! [AnyObject]? {
                         for p in photo {
                             let photoJson = p as! [String: AnyObject]
-                            photoList.append(Photo(dictionary: photoJson, pin: pin, context: self.sharedContext))
+                            dispatch_async(dispatch_get_main_queue()) {
+                                photoList.append(Photo(dictionary: photoJson, pin: pin, context: self.sharedContext))
+                            }
                         }
 
                     }
