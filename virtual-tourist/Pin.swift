@@ -48,6 +48,15 @@ class Pin: NSManagedObject, MKAnnotation {
             photo.deleteImageFromDisk()
 
             CoreDataStackManager.sharedInstance().managedObjectContext.deleteObject(photo)
+            
+        }
+        
+        self.sharedContext.performBlock() {
+            do {
+                try self.sharedContext.save()
+            } catch let error as NSError {
+                print(error)
+            }
         }
     }
     

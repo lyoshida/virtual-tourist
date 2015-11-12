@@ -99,6 +99,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         print("Retrieving new photos")
         self.pin!.removePhotos()
         self.getPhotos(self.page)
+        self.saveSharedContext()
     }
     
     func getPhotos(page: Int) {
