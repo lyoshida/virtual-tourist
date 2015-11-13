@@ -120,13 +120,6 @@ class MapNavigationViewController: UIViewController, MKMapViewDelegate {
         
         self.navigationMapView.addAnnotation(annotation)
         
-        // Saves the Pin
-        
-        
-        
-        let latitude: Double = Double(annotation.coordinate.latitude)
-        let longitude: Double = Double(annotation.coordinate.longitude)
-        _ = Pin(annotationLatitude: latitude, annotationLongitude: longitude, context: self.sharedContext)
         
         do {
             try self.sharedContext.save()
